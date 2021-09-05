@@ -24,4 +24,20 @@ export default class PostsService {
   byId(id: number) {
     return this.postRepository.findOne({ where: [{ id }] });
   }
+
+  create(props: any) {
+    const date = new Date();
+    return this.postRepository.insert({ ...props });
+  }
+
+  insertImages(images: string[], id: number) {
+    images.forEach((image) => {
+      this.imagesRepository.insert({ post_id: id, name: image });
+    });
+  }
+  insertCategories(categories: string[], id: number) {
+    categories.forEach((cat) => {
+      this.catRepository.insert({ post_id: id, category: cat });
+    });
+  }
 }
