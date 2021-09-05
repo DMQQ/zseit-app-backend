@@ -19,4 +19,10 @@ export default class UserEntity {
 
   @Column({ type: "varchar" })
   role: User;
+
+  @Column({ type: "date" })
+  created_at: Date;
+
+  @Column({ type: "boolean" })
+  blocked: boolean;
 }

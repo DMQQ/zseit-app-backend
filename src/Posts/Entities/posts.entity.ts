@@ -40,4 +40,10 @@ export default class PostsEntity {
 
   @Column({ type: "varchar" })
   thumbnail: string;
+
+  @Column({ type: "boolean" })
+  published: boolean;
+
+  @Column({ type: "date" })
+  edited_at: Date;
 }

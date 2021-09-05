@@ -43,7 +43,6 @@ export default class AdminController {
         this.postService
           .insertSingleImage(filename, +id)
           .then(({ raw }) => {
-            console.log(filename);
             if (raw.affectedRows > 0) {
               res.status(201).send({ message: "Uploaded", images: names });
             }

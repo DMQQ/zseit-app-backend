@@ -41,4 +41,8 @@ export default class UserService {
   async createUser(props: InsertProps) {
     return this.userRepository.insert(props);
   }
+
+  async isBlocked(username: string): Promise<UserEntity> {
+    return this.userRepository.findOne({ username, blocked: true });
+  }
 }
