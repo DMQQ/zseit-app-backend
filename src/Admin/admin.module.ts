@@ -7,7 +7,7 @@ import AdminController from "./admin.controller";
   imports: [
     PostsModule,
     MulterModule.register({
-      dest: "./upload",
+      dest: "./images",
     }),
   ],
   controllers: [AdminController],

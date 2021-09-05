@@ -1,5 +1,6 @@
-import { Controller, Get, Param } from "@nestjs/common";
+import { Controller, Get, Param, Res } from "@nestjs/common";
 import PostsService from "./posts.service";
+import { Response } from "express";
 
 @Controller("posts")
 export default class PostsController {
@@ -17,6 +18,11 @@ export default class PostsController {
 
   @Get("/user-only")
   getPostForAuthenticated() {
-    return "auth only";
+    return this.postsService.getPremiumPosts();
+  }
+
+  @Get("/images/name=:name")
+  readImages(@Param("name") name: string, @Res() response: Response) {
+    return response.sendFile(name, { root: "./images" });
   }
 }

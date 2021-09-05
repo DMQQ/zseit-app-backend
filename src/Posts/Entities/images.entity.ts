@@ -16,7 +16,7 @@ export default class ImagesEntity {
   @Column({ type: "varchar" })
   name: string;
 
-  @ManyToOne(() => PostsEntity, (type) => type.id)
+  @ManyToOne(() => PostsEntity)
   @JoinColumn({ name: "post_id" })
   post_id: number;
 }
