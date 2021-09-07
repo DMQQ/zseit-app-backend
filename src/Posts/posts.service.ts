@@ -22,7 +22,10 @@ export default class PostsService {
     return this.postRepository.find({ relations: ["categories", "images"] });
   }
   byId(id: number) {
-    return this.postRepository.findOne({ where: [{ id }] });
+    return this.postRepository.findOne({
+      where: [{ id }],
+      relations: ["categories", "images"],
+    });
   }
 
   getPremiumPosts() {
@@ -33,8 +36,13 @@ export default class PostsService {
   }
 
   create(props: any) {
-    const date = new Date();
-    return this.postRepository.insert({ ...props });
+    const created_at = new Date().toLocaleDateString();
+    return this.postRepository.insert({
+      ...props,
+      created_at,
+      edited_at: created_at,
+      thumbnail: "",
+    });
   }
 
   insertImages(images: string[], id: number) {
@@ -42,8 +50,8 @@ export default class PostsService {
       this.imagesRepository.insert({ post_id: id, name: image });
     });
   }
-  insertSingleImage(name: string, id: number) {
-    return this.imagesRepository.insert({ post_id: id, name });
+  insertSingleImage(name: string, original_name: string, id: number) {
+    return this.imagesRepository.insert({ post_id: id, name, original_name });
   }
 
   insertCategories(categories: string[], id: number) {

@@ -3,7 +3,6 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 import PostsEntity from "./posts.entity";
@@ -15,6 +14,9 @@ export default class ImagesEntity {
 
   @Column({ type: "varchar" })
   name: string;
+
+  @Column({ type: "varchar" })
+  original_name: string;
 
   @ManyToOne(() => PostsEntity)
   @JoinColumn({ name: "post_id" })

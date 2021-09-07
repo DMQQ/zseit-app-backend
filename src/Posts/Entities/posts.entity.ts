@@ -24,9 +24,6 @@ export default class PostsEntity {
   @JoinColumn({ name: "author_id" })
   author_id: UserEntity;
 
-  @Column({ type: "date" })
-  created_at: Date;
-
   @OneToMany(() => CategoriesEntity, (type) => type.post_id)
   @JoinColumn({ name: "categories" })
   categories: CategoriesEntity[];
@@ -44,6 +41,9 @@ export default class PostsEntity {
   @Column({ type: "boolean" })
   published: boolean;
 
-  @Column({ type: "date" })
-  edited_at: Date;
+  @Column({ type: "varchar" })
+  created_at: string;
+
+  @Column({ type: "varchar" })
+  edited_at: string;
 }

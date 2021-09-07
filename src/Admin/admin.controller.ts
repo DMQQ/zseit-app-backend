@@ -27,6 +27,11 @@ export default class AdminController {
         });
       }
       this.postService.insertCategories(props.categories, postId);
+
+      res.status(201).send({
+        message: "Success",
+        insertId: postId,
+      });
     });
   }
 
@@ -37,17 +42,24 @@ export default class AdminController {
     @Param("id") id: number,
     @Res() res: Response
   ) {
-    if (files) {
+    if (files !== null) {
       const names = files.map(({ filename }) => filename);
-      files.forEach(({ filename }) => {
+      files.forEach(({ filename, originalname }) => {
         this.postService
-          .insertSingleImage(filename, +id)
-          .then(({ raw }) => {
-            if (raw.affectedRows > 0) {
-              res.status(201).send({ message: "Uploaded", images: names });
+          .insertSingleImage(filename, originalname, +id)
+          .then(({ raw: { affectedRows } }) => {
+            if (typeof affectedRows !== "undefined" && affectedRows > 0) {
+              return res
+                .status(201)
+                .send({ message: "Uploaded", images: names });
             }
           })
-          .catch((err) => console.log(err));
+          .catch((err) => {
+            res.status(400).send({
+              message: "Failed",
+              error: err,
+            });
+          });
       });
     }
   }

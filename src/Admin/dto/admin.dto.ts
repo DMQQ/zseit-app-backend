@@ -13,13 +13,6 @@ export default class AdminDto {
   @IsBoolean()
   premium: boolean;
 
-  @IsNotEmpty()
-  @IsString()
-  thumbnail: string;
-
   @IsArray()
   categories: string[];
-
-  @IsArray()
-  images: string[];
 }
