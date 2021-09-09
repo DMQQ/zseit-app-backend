@@ -11,6 +11,11 @@ export default class PostsController {
     return this.postsService.all();
   }
 
+  @Get("/search=:text")
+  searchByText(@Param("text") text: string) {
+    return this.postsService.getByText(text);
+  }
+
   @Get("/postId=:id")
   getPostById(@Param("id") id: number) {
     return this.postsService.byId(id);

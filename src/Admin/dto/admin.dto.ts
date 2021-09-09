@@ -15,4 +15,7 @@ export default class AdminDto {
 
   @IsArray()
   categories: string[];
+
+  @IsString()
+  description: string;
 }

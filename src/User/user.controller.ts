@@ -31,6 +31,7 @@ export default class UserController {
             .createToken({
               username: props.email,
               user_id: result.id,
+              role: result.role,
             })
             .then((token) => {
               if (token) {
@@ -76,6 +77,7 @@ export default class UserController {
                 .createToken({
                   username: props.email,
                   user_id: raw.insertId,
+                  role: "USER",
                 })
                 .then((token) => {
                   response.status(201).send({

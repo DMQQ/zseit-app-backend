@@ -12,7 +12,7 @@ export default class CategoriesEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => PostsEntity, (type) => type.id)
+  @ManyToOne(() => PostsEntity, (type) => type.id, { onDelete: "CASCADE" })
   @JoinColumn({ name: "post_id" })
   post_id: number;
 

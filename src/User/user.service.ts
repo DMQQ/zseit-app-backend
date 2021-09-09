@@ -5,7 +5,7 @@ import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
 import { Repository } from "typeorm";
 
-const TOKEN = process.env.TOKEN || "nn41n4198ganxnz!!xc(()23131";
+export const TOKEN = process.env.TOKEN || "nn41n4198ganxnz!!xc(()23131";
 
 type InsertProps = {
   username: string;

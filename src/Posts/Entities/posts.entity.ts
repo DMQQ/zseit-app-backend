@@ -20,15 +20,21 @@ export default class PostsEntity {
   @Column({ type: "text", nullable: false })
   content: string;
 
-  @OneToMany(() => UserEntity, (type) => type.id)
+  @OneToMany(() => UserEntity, (type) => type.id, {
+    onDelete: "CASCADE",
+  })
   @JoinColumn({ name: "author_id" })
   author_id: UserEntity;
 
-  @OneToMany(() => CategoriesEntity, (type) => type.post_id)
+  @OneToMany(() => CategoriesEntity, (type) => type.post_id, {
+    onDelete: "CASCADE",
+  })
   @JoinColumn({ name: "categories" })
   categories: CategoriesEntity[];
 
-  @OneToMany(() => ImagesEntity, (type) => type.post_id)
+  @OneToMany(() => ImagesEntity, (type) => type.post_id, {
+    onDelete: "CASCADE",
+  })
   @JoinColumn({ name: "images" })
   images: ImagesEntity[];
 
@@ -46,4 +52,7 @@ export default class PostsEntity {
 
   @Column({ type: "varchar" })
   edited_at: string;
+
+  @Column({ type: "varchar" })
+  description: string;
 }

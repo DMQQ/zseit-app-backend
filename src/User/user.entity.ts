@@ -17,7 +17,7 @@ export default class UserEntity {
   @Column({ type: "varchar", nullable: false, length: 30 })
   username: string;
 
-  @Column({ type: "varchar" })
+  @Column({ type: "varchar", default: "USER" })
   role: User;
 
   @Column({ type: "date" })

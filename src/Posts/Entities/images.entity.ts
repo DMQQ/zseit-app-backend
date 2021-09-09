@@ -18,7 +18,7 @@ export default class ImagesEntity {
   @Column({ type: "varchar" })
   original_name: string;
 
-  @ManyToOne(() => PostsEntity)
+  @ManyToOne(() => PostsEntity, { onDelete: "CASCADE" })
   @JoinColumn({ name: "post_id" })
   post_id: number;
 }

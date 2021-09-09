@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { Like, Repository } from "typeorm";
 import CategoriesEntity from "./Entities/category.entity";
 import ImagesEntity from "./Entities/images.entity";
 import PostsEntity from "./Entities/posts.entity";
@@ -57,6 +57,13 @@ export default class PostsService {
   insertCategories(categories: string[], id: number) {
     categories.forEach((cat) => {
       this.catRepository.insert({ post_id: id, category: cat });
+    });
+  }
+
+  getByText(text: string) {
+    return this.postRepository.find({
+      relations: ["categories", "images"],
+      where: [{ title: Like(`%${text}%`) }],
     });
   }
 }
