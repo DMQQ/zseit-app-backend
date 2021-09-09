@@ -7,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import CategoriesEntity from "./category.entity";
+import FilesEntity from "./files.entity";
 import ImagesEntity from "./images.entity";
 
 @Entity("posts")
@@ -55,4 +56,8 @@ export default class PostsEntity {
 
   @Column({ type: "varchar" })
   description: string;
+
+  @OneToMany(() => FilesEntity, (type) => type.post_id, { onDelete: "CASCADE" })
+  @JoinColumn({ name: "files" })
+  files: FilesEntity[];
 }

@@ -9,7 +9,7 @@ import AdminMiddleware from "./middleware/admin.middleware";
   imports: [
     PostsModule,
     MulterModule.register({
-      dest: "./images",
+      dest: "./files",
     }),
     UserModule,
   ],

@@ -1,6 +1,8 @@
-import { Controller, Get, Param, Res } from "@nestjs/common";
+import { Controller, Get, Param, Res, StreamableFile } from "@nestjs/common";
 import PostsService from "./posts.service";
 import { Response } from "express";
+import { createReadStream } from "fs";
+import { join } from "path";
 
 @Controller("posts")
 export default class PostsController {
@@ -28,6 +30,13 @@ export default class PostsController {
 
   @Get("/images/name=:name")
   readImages(@Param("name") name: string, @Res() response: Response) {
-    return response.sendFile(name, { root: "./images" });
+    return response.sendFile(name, { root: "./files" });
+  }
+
+  @Get("files/name=:name")
+  getFiles(@Param("name") name: string, @Res() response: Response) {
+    const file = createReadStream(join(process.cwd(), `./files/${name}`));
+
+    return file.pipe(response);
   }
 }

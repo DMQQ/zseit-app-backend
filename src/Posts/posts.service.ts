@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Like, Repository } from "typeorm";
 import CategoriesEntity from "./Entities/category.entity";
+import FilesEntity from "./Entities/files.entity";
 import ImagesEntity from "./Entities/images.entity";
 import PostsEntity from "./Entities/posts.entity";
 
@@ -15,22 +16,27 @@ export default class PostsService {
     private catRepository: Repository<CategoriesEntity>,
 
     @InjectRepository(ImagesEntity)
-    private imagesRepository: Repository<ImagesEntity>
+    private imagesRepository: Repository<ImagesEntity>,
+
+    @InjectRepository(FilesEntity)
+    private filesRepository: Repository<FilesEntity>
   ) {}
 
   all() {
-    return this.postRepository.find({ relations: ["categories", "images"] });
+    return this.postRepository.find({
+      relations: ["categories", "images", "files"],
+    });
   }
   byId(id: number) {
     return this.postRepository.findOne({
       where: [{ id }],
-      relations: ["categories", "images"],
+      relations: ["categories", "images", "files"],
     });
   }
 
   getPremiumPosts() {
     return this.postRepository.find({
-      relations: ["categories", "images"],
+      relations: ["categories", "images", "files"],
       where: [{ needAccount: true }],
     });
   }
@@ -62,8 +68,12 @@ export default class PostsService {
 
   getByText(text: string) {
     return this.postRepository.find({
-      relations: ["categories", "images"],
+      relations: ["categories", "images", "files"],
       where: [{ title: Like(`%${text}%`) }],
     });
+  }
+
+  insertSingleFile(name: string, id: number) {
+    return this.filesRepository.insert({ post_id: id, name });
   }
 }

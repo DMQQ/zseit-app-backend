@@ -63,4 +63,34 @@ export default class AdminController {
       });
     }
   }
+
+  @Post("/upload/files/id=:id")
+  @UseInterceptors(FilesInterceptor("files"))
+  uploadFiles(
+    @UploadedFiles() files: Array<Express.Multer.File>,
+    @Param("id") id: number,
+    @Res() res: Response
+  ) {
+    if (files !== null) {
+      const names = files.map(({ filename }) => filename);
+
+      files.forEach(({ filename }) => {
+        this.postService
+          .insertSingleFile(filename, id)
+          .then(({ raw: { affectedRows } }) => {
+            if (typeof affectedRows !== "undefined" && affectedRows > 0) {
+              return res
+                .status(201)
+                .send({ message: "Uploaded", images: names });
+            }
+          })
+          .catch((err) => {
+            res.status(400).send({
+              message: "Failed",
+              error: err,
+            });
+          });
+      });
+    }
+  }
 }

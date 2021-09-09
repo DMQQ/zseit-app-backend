@@ -5,10 +5,16 @@ import PostsController from "./posts.controller";
 import PostsEntity from "./Entities/posts.entity";
 import PostsService from "./posts.service";
 import ImagesEntity from "./Entities/images.entity";
+import FilesEntity from "./Entities/files.entity";
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([PostsEntity, CategoriesEntity, ImagesEntity]),
+    TypeOrmModule.forFeature([
+      PostsEntity,
+      CategoriesEntity,
+      ImagesEntity,
+      FilesEntity,
+    ]),
   ],
   controllers: [PostsController],
   providers: [PostsService],
