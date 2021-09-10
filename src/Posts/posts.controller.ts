@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Res, StreamableFile } from "@nestjs/common";
+import { Controller, Get, Param, Res } from "@nestjs/common";
 import PostsService from "./posts.service";
 import { Response } from "express";
 import { createReadStream } from "fs";
@@ -13,9 +13,11 @@ export default class PostsController {
     return this.postsService.all();
   }
 
-  @Get("/search=:text")
-  searchByText(@Param("text") text: string) {
-    return this.postsService.getByText(text);
+  @Get("/search=:text/category=:cat")
+  searchByText(@Param("text") text: string, @Param("cat") category: string) {
+    return text === "ALL"
+      ? this.postsService.all()
+      : this.postsService.getByText(text);
   }
 
   @Get("/postId=:id")

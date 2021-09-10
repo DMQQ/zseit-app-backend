@@ -25,11 +25,13 @@ export default class PostsService {
   all() {
     return this.postRepository.find({
       relations: ["categories", "images", "files"],
+      where: [{ published: true, needAccount: false }],
     });
   }
+
   byId(id: number) {
     return this.postRepository.findOne({
-      where: [{ id }],
+      where: [{ id, published: true }],
       relations: ["categories", "images", "files"],
     });
   }
@@ -37,7 +39,7 @@ export default class PostsService {
   getPremiumPosts() {
     return this.postRepository.find({
       relations: ["categories", "images", "files"],
-      where: [{ needAccount: true }],
+      where: [{ needAccount: true, published: true }],
     });
   }
 
@@ -48,6 +50,7 @@ export default class PostsService {
       created_at,
       edited_at: created_at,
       thumbnail: "",
+      published: true,
     });
   }
 
