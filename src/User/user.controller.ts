@@ -38,8 +38,9 @@ export default class UserController {
                 response.status(200).send({
                   message: "Zalogowano pomyślnie",
                   user_id: result.id,
-                  email: props.email,
+                  username: props.email,
                   token,
+                  role: result.role,
                 });
               }
             });
@@ -85,6 +86,7 @@ export default class UserController {
                     username: props.email,
                     user_id: raw.insertId,
                     token,
+                    role: "USER",
                   });
                 });
             });

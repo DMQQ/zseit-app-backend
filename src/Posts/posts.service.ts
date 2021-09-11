@@ -51,6 +51,7 @@ export default class PostsService {
       edited_at: created_at,
       thumbnail: "",
       published: true,
+      needAccount: props.premium,
     });
   }
 

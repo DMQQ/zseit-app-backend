@@ -14,10 +14,36 @@ export default class PostsController {
   }
 
   @Get("/search=:text/category=:cat")
-  searchByText(@Param("text") text: string, @Param("cat") category: string) {
-    return text === "ALL"
-      ? this.postsService.all()
-      : this.postsService.getByText(text);
+  async searchByText(
+    @Param("text") text: string,
+    @Param("cat") category: string,
+    @Res() response: Response
+  ) {
+    if (text === "ALL") {
+      return this.postsService.all().then((res) => response.send(res));
+    }
+
+    if (text !== "ALL" && category === "NULL") {
+      return this.postsService
+        .getByText(text)
+        .then((result) => response.send(result));
+    }
+
+    if (text !== "ALL" && category) {
+      this.postsService.getByText(text).then((result) => {
+        const posts = [];
+
+        result.forEach((post) => {
+          const categories = post.categories.map(({ category }) => category);
+
+          if (categories.includes(category)) {
+            posts.push(post);
+          }
+        });
+
+        response.send(posts);
+      });
+    }
   }
 
   @Get("/postId=:id")
