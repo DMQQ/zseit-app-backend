@@ -19,8 +19,24 @@ export default class PostsController {
     @Param("cat") category: string,
     @Res() response: Response
   ) {
-    if (text === "ALL") {
+    if (text === "ALL" && category === "NULL") {
       return this.postsService.all().then((res) => response.send(res));
+    }
+
+    if (text === "ALL" && category !== "NULL") {
+      return this.postsService.all().then((result) => {
+        const posts = [];
+
+        result.forEach((post) => {
+          const categories = post.categories.map(({ category }) => category);
+
+          if (categories.includes(category)) {
+            posts.push(post);
+          }
+        });
+
+        response.send(posts);
+      });
     }
 
     if (text !== "ALL" && category === "NULL") {

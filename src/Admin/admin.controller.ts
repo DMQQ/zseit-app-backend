@@ -1,8 +1,10 @@
 import {
   Body,
   Controller,
+  Delete,
   Param,
   Post,
+  Put,
   Res,
   UploadedFiles,
 } from "@nestjs/common";
@@ -92,5 +94,24 @@ export default class AdminController {
           });
       });
     }
+  }
+
+  @Delete("/delete/post")
+  async removePost(@Body("id") id: number, @Res() response: Response) {
+    return this.postService.removePost(id).then((result) => {
+      if (result.affected > 0) {
+        return response.send({ message: "Deleted" });
+      }
+      response.send({ message: "Failed" });
+    });
+  }
+
+  @Put("/update/publish")
+  async publishPost(@Body("id") id: number, @Res() response: Response) {
+    return this.postService.publishPost(id).then((res) => {
+      if (res.affected > 0) {
+        return response.send({ message: "Updated" });
+      }
+    });
   }
 }

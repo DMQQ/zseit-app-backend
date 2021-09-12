@@ -39,7 +39,18 @@ export default class UserService {
   }
 
   async createUser(props: InsertProps) {
-    return this.userRepository.insert(props);
+    const date = new Date();
+
+    const [day, month, year] = [
+      date.getDate(),
+      date.getMonth() + 1,
+      date.getFullYear(),
+    ];
+
+    return this.userRepository.insert({
+      ...props,
+      created_at: `${year}-${month}-${day}`,
+    });
   }
 
   async isBlocked(username: string): Promise<UserEntity> {

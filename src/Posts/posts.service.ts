@@ -80,4 +80,12 @@ export default class PostsService {
   insertSingleFile(name: string, id: number) {
     return this.filesRepository.insert({ post_id: id, name });
   }
+
+  removePost(id: number) {
+    return this.postRepository.delete({ id });
+  }
+
+  publishPost(id: number) {
+    return this.postRepository.update(id, { published: true });
+  }
 }
