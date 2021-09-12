@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   Param,
   Post,
   Put,
@@ -35,6 +36,11 @@ export default class AdminController {
         insertId: postId,
       });
     });
+  }
+
+  @Get("/get/all")
+  getAllPosts() {
+    return this.postService.getAll();
   }
 
   @Post("upload/id=:id")
@@ -96,8 +102,8 @@ export default class AdminController {
     }
   }
 
-  @Delete("/delete/post")
-  async removePost(@Body("id") id: number, @Res() response: Response) {
+  @Delete("/delete/post/id=:id")
+  async removePost(@Param("id") id: number, @Res() response: Response) {
     return this.postService.removePost(id).then((result) => {
       if (result.affected > 0) {
         return response.send({ message: "Deleted" });
@@ -112,6 +118,7 @@ export default class AdminController {
       if (res.affected > 0) {
         return response.send({ message: "Updated" });
       }
+      response.send({ message: "Failed" });
     });
   }
 }

@@ -88,4 +88,10 @@ export default class PostsService {
   publishPost(id: number) {
     return this.postRepository.update(id, { published: true });
   }
+
+  getAll() {
+    return this.postRepository.find({
+      relations: ["categories", "images", "files"],
+    });
+  }
 }
