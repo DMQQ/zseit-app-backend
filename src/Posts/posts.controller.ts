@@ -1,6 +1,6 @@
-import { Controller, Get, Param, Res } from "@nestjs/common";
+import { Controller, Get, Param, Req, Res } from "@nestjs/common";
 import PostsService from "./posts.service";
-import { Response } from "express";
+import { Response, Request } from "express";
 import { createReadStream } from "fs";
 import { join } from "path";
 
@@ -68,8 +68,12 @@ export default class PostsController {
   }
 
   @Get("/user-only")
-  getPostForAuthenticated() {
-    return this.postsService.getPremiumPosts();
+  getPostForAuthenticated(@Req() request: Request) {
+    const token: any = request.headers["token"];
+
+    return token
+      ? this.postsService.getPremiumPosts()
+      : { message: "no token" };
   }
 
   @Get("/images/name=:name")

@@ -30,12 +30,12 @@ export default class UserService {
     return jwt.sign(props, TOKEN, { expiresIn: "720h" });
   }
 
-  async verifyToken(token: string) {
+  async verifyToken(token: string): Promise<any> {
     return jwt.verify(token, TOKEN);
   }
 
   async findUser(username: string): Promise<UserEntity> {
-    return this.userRepository.findOne({ username });
+    return this.userRepository.findOne({ username, blocked: false });
   }
 
   async createUser(props: InsertProps) {

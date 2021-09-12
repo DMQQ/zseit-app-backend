@@ -6,6 +6,7 @@ import PostsEntity from "./Entities/posts.entity";
 import PostsService from "./posts.service";
 import ImagesEntity from "./Entities/images.entity";
 import FilesEntity from "./Entities/files.entity";
+import UserModule from "src/User/user.module";
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import FilesEntity from "./Entities/files.entity";
       ImagesEntity,
       FilesEntity,
     ]),
+    UserModule,
   ],
   controllers: [PostsController],
   providers: [PostsService],
