@@ -50,7 +50,7 @@ export default class PostsService {
       created_at,
       edited_at: created_at,
       thumbnail: "",
-      published: true,
+      published: props.published || true,
       needAccount: props.premium,
     });
   }
@@ -93,5 +93,9 @@ export default class PostsService {
     return this.postRepository.find({
       relations: ["categories", "images", "files"],
     });
+  }
+
+  unpublish(id: number): Promise<any> {
+    return this.postRepository.update(id, { published: false });
   }
 }

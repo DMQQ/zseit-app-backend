@@ -56,4 +56,8 @@ export default class UserService {
   async isBlocked(username: string): Promise<UserEntity> {
     return this.userRepository.findOne({ username, blocked: true });
   }
+
+  block(id: number) {
+    return this.userRepository.update(id, { blocked: true });
+  }
 }

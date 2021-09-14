@@ -14,10 +14,14 @@ import AdminDto from "./dto/admin.dto";
 import { Response } from "express";
 import { UseInterceptors } from "@nestjs/common";
 import { FilesInterceptor } from "@nestjs/platform-express";
+import UserService from "src/User/user.service";
 
 @Controller("admin")
 export default class AdminController {
-  constructor(private postService: PostsService) {}
+  constructor(
+    private postService: PostsService,
+    private userService: UserService
+  ) {}
 
   @Post("create")
   createPost(@Body() props: AdminDto, @Res() res: Response) {
@@ -34,6 +38,7 @@ export default class AdminController {
       res.status(201).send({
         message: "Success",
         insertId: postId,
+        redirect: `/article/id=${postId}/title=${props.title}`,
       });
     });
   }
@@ -120,5 +125,30 @@ export default class AdminController {
       }
       response.send({ message: "Failed" });
     });
+  }
+
+  @Put("/update/unpublish")
+  async hide(@Body("id") id: number, @Res() response: Response) {
+    return this.postService.unpublish(id).then((res) => {
+      if (res.affected > 0) {
+        return response.send({ message: "Updated" });
+      }
+      response.send({ message: "Failed" });
+    });
+  }
+
+  @Put("/users/block")
+  async blockUser(@Body("id") id: number, @Res() response: Response) {
+    return this.userService
+      .block(id)
+      .then(({ affected }) => {
+        if (typeof affected !== "undefined" && affected > 0) {
+          return response.send({ message: "Blocked" });
+        }
+        response.send({ message: "Failed" });
+      })
+      .catch((err) => {
+        response.send(err);
+      });
   }
 }
