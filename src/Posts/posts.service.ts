@@ -98,4 +98,8 @@ export default class PostsService {
   unpublish(id: number): Promise<any> {
     return this.postRepository.update(id, { published: false });
   }
+
+  getUnpublished(id: number) {
+    return this.postRepository.findOne(id);
+  }
 }

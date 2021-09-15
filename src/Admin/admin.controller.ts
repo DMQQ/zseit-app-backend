@@ -151,4 +151,9 @@ export default class AdminController {
         response.send(err);
       });
   }
+
+  @Get("unpublished/id=:id")
+  getUnpublishedPosts(@Param("id") id: number) {
+    return this.postService.getUnpublished(id);
+  }
 }
