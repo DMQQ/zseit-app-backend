@@ -2,7 +2,8 @@ import { Module, NestModule, MiddlewareConsumer } from "@nestjs/common";
 import { MulterModule } from "@nestjs/platform-express";
 import PostsModule from "src/Posts/posts.module";
 import UserModule from "src/User/user.module";
-import AdminController from "./admin.controller";
+import AdminPostsController from "./controllers/admin.post.controller";
+import AdminUserController from "./controllers/admin.user.controller";
 import AdminMiddleware from "./middleware/admin.middleware";
 
 @Module({
@@ -13,7 +14,7 @@ import AdminMiddleware from "./middleware/admin.middleware";
     }),
     UserModule,
   ],
-  controllers: [AdminController],
+  controllers: [AdminPostsController, AdminUserController],
 })
 export default class AdminModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

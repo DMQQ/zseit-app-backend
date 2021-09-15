@@ -60,4 +60,10 @@ export default class UserService {
   block(id: number) {
     return this.userRepository.update(id, { blocked: true });
   }
+
+  getAll() {
+    return this.userRepository.find({
+      select: ["username", "role", "id", "created_at", "blocked"],
+    });
+  }
 }

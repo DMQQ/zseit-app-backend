@@ -10,18 +10,14 @@ import {
   UploadedFiles,
 } from "@nestjs/common";
 import PostsService from "src/Posts/posts.service";
-import AdminDto from "./dto/admin.dto";
+import AdminDto from "../dto/admin.dto";
 import { Response } from "express";
 import { UseInterceptors } from "@nestjs/common";
 import { FilesInterceptor } from "@nestjs/platform-express";
-import UserService from "src/User/user.service";
 
-@Controller("admin")
-export default class AdminController {
-  constructor(
-    private postService: PostsService,
-    private userService: UserService
-  ) {}
+@Controller("admin/posts")
+export default class AdminPostsController {
+  constructor(private postService: PostsService) {}
 
   @Post("create")
   createPost(@Body() props: AdminDto, @Res() res: Response) {
@@ -135,21 +131,6 @@ export default class AdminController {
       }
       response.send({ message: "Failed" });
     });
-  }
-
-  @Put("/users/block")
-  async blockUser(@Body("id") id: number, @Res() response: Response) {
-    return this.userService
-      .block(id)
-      .then(({ affected }) => {
-        if (typeof affected !== "undefined" && affected > 0) {
-          return response.send({ message: "Blocked" });
-        }
-        response.send({ message: "Failed" });
-      })
-      .catch((err) => {
-        response.send(err);
-      });
   }
 
   @Get("unpublished/id=:id")
