@@ -50,7 +50,7 @@ export default class PostsService {
       created_at,
       edited_at: created_at,
       thumbnail: "",
-      published: props.published || true,
+      published: props.published,
       needAccount: props.premium,
     });
   }

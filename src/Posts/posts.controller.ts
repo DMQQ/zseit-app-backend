@@ -78,12 +78,31 @@ export default class PostsController {
 
   @Get("/images/name=:name")
   readImages(@Param("name") name: string, @Res() response: Response) {
-    return response.sendFile(name, { root: "./files" });
+    return response.sendFile(name, { root: "./files" }, (err) => {
+      if (err) {
+        response.status(404).send({
+          error: "Not found",
+          statusCode: 404,
+          message: err.message,
+        });
+      }
+    });
   }
 
   @Get("files/name=:name")
   getFiles(@Param("name") name: string, @Res() response: Response) {
-    const file = createReadStream(join(process.cwd(), `./files/${name}`));
+    const file = createReadStream(join(process.cwd(), `./files/${name}`)).on(
+      "error",
+      (err) => {
+        if (err) {
+          response.status(404).send({
+            error: err.message,
+            message: "Not found",
+            statusCode: 404,
+          });
+        }
+      }
+    );
 
     return file.pipe(response);
   }
