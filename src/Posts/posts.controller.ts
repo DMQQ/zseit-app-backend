@@ -13,10 +13,10 @@ export default class PostsController {
     return this.postsService.all();
   }
 
-  @Get("/search=:text/category=:cat")
+  @Get("/search=:text/category=:category")
   async searchByText(
     @Param("text") text: string,
-    @Param("cat") category: string,
+    @Param("category") category: string,
     @Res() response: Response
   ) {
     if (text === "ALL" && category === "NULL") {

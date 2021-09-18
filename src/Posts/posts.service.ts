@@ -26,6 +26,7 @@ export default class PostsService {
     return this.postRepository.find({
       relations: ["categories", "images", "files"],
       where: [{ published: true, needAccount: false }],
+      order: { created_at: "DESC" },
     });
   }
 
@@ -92,6 +93,7 @@ export default class PostsService {
   getAll() {
     return this.postRepository.find({
       relations: ["categories", "images", "files"],
+      order: { created_at: "DESC" },
     });
   }
 

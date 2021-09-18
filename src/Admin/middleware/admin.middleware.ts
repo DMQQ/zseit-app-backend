@@ -8,7 +8,7 @@ export default class AdminMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction) {
     const token = req.headers.token;
 
-    if (typeof token === undefined) {
+    if (typeof token === "undefined") {
       res.status(403).send({
         message: "Forbidden",
         statusCode: 403,
