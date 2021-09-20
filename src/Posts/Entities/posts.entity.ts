@@ -15,7 +15,7 @@ export default class PostsEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: "varchar", nullable: false })
+  @Column({ type: "varchar", nullable: false, length: "100" })
   title: string;
 
   @Column({ type: "text", nullable: false })
@@ -42,9 +42,6 @@ export default class PostsEntity {
   @Column({ type: "boolean" })
   needAccount: boolean;
 
-  @Column({ type: "varchar" })
-  thumbnail: string;
-
   @Column({ type: "boolean" })
   published: boolean;
 
@@ -54,7 +51,7 @@ export default class PostsEntity {
   @Column({ type: "varchar" })
   edited_at: string;
 
-  @Column({ type: "varchar" })
+  @Column({ type: "varchar", length: "250" })
   description: string;
 
   @OneToMany(() => FilesEntity, (type) => type.post_id, { onDelete: "CASCADE" })

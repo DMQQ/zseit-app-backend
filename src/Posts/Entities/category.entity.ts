@@ -16,6 +16,6 @@ export default class CategoriesEntity {
   @JoinColumn({ name: "post_id" })
   post_id: number;
 
-  @Column({ type: "varchar" })
+  @Column({ type: "varchar", length: "25" })
   category: string;
 }

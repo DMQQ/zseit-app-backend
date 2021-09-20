@@ -117,9 +117,13 @@ export default class AdminPostsController {
   async publishPost(@Body("id") id: number, @Res() response: Response) {
     return this.postService.publishPost(id).then((res) => {
       if (res.affected > 0) {
-        return response.send({ message: "Updated" });
+        return response.status(201).send({ message: "Updated" });
       }
-      response.send({ message: "Failed" });
+      response.status(400).send({
+        message: "Failed",
+        statusCode: 400,
+        error: "Publishing post failed",
+      });
     });
   }
 
@@ -129,7 +133,11 @@ export default class AdminPostsController {
       if (res.affected > 0) {
         return response.send({ message: "Updated" });
       }
-      response.send({ message: "Failed" });
+      response.status(400).send({
+        message: "Failed",
+        statusCode: 400,
+        error: "Post unpublishing failed",
+      });
     });
   }
 
