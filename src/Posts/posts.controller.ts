@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Req, Res } from "@nestjs/common";
+import { Controller, Get, Param, Query, Req, Res } from "@nestjs/common";
 import PostsService from "./posts.service";
 import { Response, Request } from "express";
 import { createReadStream } from "fs";
@@ -13,10 +13,10 @@ export default class PostsController {
     return this.postsService.all();
   }
 
-  @Get("/search=:text/category=:category")
+  @Get("q")
   async searchByText(
-    @Param("text") text: string,
-    @Param("category") category: string,
+    @Query("text") text: string,
+    @Query("category") category: string,
     @Res() response: Response
   ) {
     if (text === "ALL" && category === "NULL") {
@@ -57,7 +57,7 @@ export default class PostsController {
           }
         });
 
-        response.send(posts);
+        response.status(200).send(posts);
       });
     }
   }
